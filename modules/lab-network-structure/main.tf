@@ -76,3 +76,24 @@ resource "vsphere_host_port_group" "ips2" {
   host_system_id      = var.vsphere_host_id
   virtual_switch_name = vsphere_host_virtual_switch.ips2.name
 }
+
+
+
+# 
+#  Outputs
+# 
+output "vm_net_bridged_id" {
+  value = resource.vsphere_host_port_group.bridged.id
+}
+
+output "vm_net_management_id" {
+  value = resource.vsphere_host_port_group.management.id
+}
+
+output "vm_net_ips1_id" {
+  value = resource.vsphere_host_port_group.ips1.id
+}
+
+output "vm_net_ips2_id" {
+  value = resource.vsphere_host_port_group.ips2.id
+}
