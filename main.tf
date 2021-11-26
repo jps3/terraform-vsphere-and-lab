@@ -26,12 +26,7 @@ data "vsphere_host" "host" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-data "vsphere_network" "vm_net" {
-  name          = "VM Network"
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-module "lab-network-structure" {
+module "m_lab_network_structure" {
   vsphere_host_id = data.vsphere_host.host.id
   source          = "./modules/lab-network-structure"
 }
