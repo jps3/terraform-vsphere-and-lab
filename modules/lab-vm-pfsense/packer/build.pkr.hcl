@@ -8,7 +8,7 @@ packer {
 }
 
 build {
-  sources  = [
+  sources = [
     "source.vsphere-iso.pfsense"
   ]
   provisioner "shell-local" {

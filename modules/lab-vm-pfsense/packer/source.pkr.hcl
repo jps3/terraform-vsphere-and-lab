@@ -14,8 +14,8 @@ source "vsphere-iso" "pfsense" {
   # VM settings
   vm_name = var.vm_name
 
-  CPUs = var.num_cpu
-  RAM = var.vm_ram
+  CPUs            = var.num_cpu
+  RAM             = var.vm_ram
   RAM_reserve_all = true
 
   storage {
@@ -24,7 +24,7 @@ source "vsphere-iso" "pfsense" {
 
   network_adapters {
     # WAN
-    network = var.vm_network
+    network      = var.vm_network
     network_card = "vmxnet3"
   }
   network_adapters {
