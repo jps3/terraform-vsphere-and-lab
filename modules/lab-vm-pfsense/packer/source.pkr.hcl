@@ -5,7 +5,7 @@ source "vsphere-iso" "pfsense" {
   username            = var.vcenter_username
   password            = var.vcenter_password
   host                = var.vcenter_host
-  insecure_connection = true
+  insecure_connection = var.insecure_connection
   cluster             = var.vcenter_cluster
   datastore           = var.vcenter_datastore
   folder              = var.vcenter_folder
@@ -22,22 +22,19 @@ source "vsphere-iso" "pfsense" {
     disk_size = var.root_disk_size
   }
 
-  network_adapters {
-    # WAN
-    network      = var.vm_network
+  network_adapters { # WAN
+    network      = var.vcenter_network
     network_card = "vmxnet3"
   }
-  network_adapters {
-    # LAN
+  network_adapters { # LAN
     network_card = "vmxnet3"
   }
-  network_adapters {
-    # OPT1
+  network_adapters { # OPT1
     network_card = "vmxnet3"
   }
 
   iso_paths = [
-    "[${var.vcenter_datastore}] ${var.iso_path}"
+    "[${var.iso_datastore}] ${var.iso_path}"
   ]
   iso_checksum = var.iso_checksum
 

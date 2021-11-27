@@ -12,6 +12,6 @@ build {
     "source.vsphere-iso.pfsense"
   ]
   provisioner "shell-local" {
-    inline = ["echo the address is: $PACKER_HTTP_ADDR and build name is: $PACKER_BUILD_NAME"]
+    inline = ["The build name is: $PACKER_BUILD_NAME"]
   }
 }
