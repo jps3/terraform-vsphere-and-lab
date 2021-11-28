@@ -73,7 +73,7 @@ variable "convert_to_template" {
   default = true
 }
 
-variable "vs_insecure_connection" {
+variable "insecure_connection" {
   type    = bool
   default = false
 }

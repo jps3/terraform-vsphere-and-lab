@@ -5,7 +5,7 @@ source "vsphere-iso" "pfsense" {
   username               = var.vcenter_username
   password               = var.vcenter_password
   host                   = var.vcenter_host
-  vs_insecure_connection = var.vs_insecure_connection
+  insecure_connection = var.insecure_connection
   cluster                = var.vcenter_cluster
   datastore              = var.vcenter_datastore
   folder                 = var.vcenter_folder
