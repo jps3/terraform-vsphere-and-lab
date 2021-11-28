@@ -1,15 +1,15 @@
 source "vsphere-iso" "pfsense" {
   # vSphere settings
-  datacenter          = var.vcenter_datacenter
-  vcenter_server      = var.vcenter_server
-  username            = var.vcenter_username
-  password            = var.vcenter_password
-  host                = var.vcenter_host
-  insecure_connection = var.insecure_connection
-  cluster             = var.vcenter_cluster
-  datastore           = var.vcenter_datastore
-  folder              = var.vcenter_folder
-  convert_to_template = true
+  datacenter             = var.vcenter_datacenter
+  vcenter_server         = var.vcenter_server
+  username               = var.vcenter_username
+  password               = var.vcenter_password
+  host                   = var.vcenter_host
+  vs_insecure_connection = var.vs_insecure_connection
+  cluster                = var.vcenter_cluster
+  datastore              = var.vcenter_datastore
+  folder                 = var.vcenter_folder
+  convert_to_template    = true
 
   # VM settings
   vm_name = var.vm_name
@@ -41,6 +41,7 @@ source "vsphere-iso" "pfsense" {
   # Boot commands
   boot_wait = "30s"
   boot_command = [
+    # Following works with pfSense 2.5.2
     ##################################################
     # INSTALL
     ##################################################
@@ -65,7 +66,8 @@ source "vsphere-iso" "pfsense" {
     #       Default: stripe
     "<enter><wait>",
     #       select device
-    "<spacebar><wait><enter><wait>",
+    "<spacebar><wait>",
+    "<enter><wait>",
     #       Proceed? y/N
     "y",
     #       ... wait for installation ...
@@ -82,22 +84,29 @@ source "vsphere-iso" "pfsense" {
     "<wait1m>",
     # FIRST BOOT
     #   Should VLANs bet set up now [y|n]?
-    "n<wait2s><enter><wait2s>",
+    "n<wait2s>",
+    "<enter><wait2s>",
     #   WAN interface name
-    "vmx0<wait2s><enter><wait2s>",
+    "vmx0<wait2s>",
+    "<enter><wait2s>",
     #   LAN interface name
-    "vmx1<wait2s><enter><wait2s>",
+    "vmx1<wait2s>",
+    "<enter><wait2s>",
     #   OPT interface name
-    "vmx2<wait2s><enter><wait2s>",
+    "vmx2<wait2s>",
+    "<enter><wait2s>",
     #   Do you want to proceed? [y|n]
-    "y<wait><enter><wait1m>",
+    "y<wait>",
+    "<enter><wait1m>",
     # Main menu
+    #   Update from console
+    "13<wait><enter>",
     #   Halt system
-    "6<wait><enter><wait>",
+    "6<wait>",
+    "<enter><wait>",
     #   Do you want to proceed? [y|n]
     "y<enter>"
   ]
-  # We don't need to do anything further in packer for now
-  # If we did, we would have to install qemu utils to discover IP & configure ssh communicator
+
   communicator = "none"
 }
