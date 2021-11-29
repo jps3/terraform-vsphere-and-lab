@@ -1,18 +1,24 @@
 source "vsphere-iso" "pfsense" {
   # vSphere settings
-  datacenter             = var.vcenter_datacenter
-  vcenter_server         = var.vcenter_server
-  username               = var.vcenter_username
-  password               = var.vcenter_password
-  host                   = var.vcenter_host
+  datacenter          = var.vcenter_datacenter
+  vcenter_server      = var.vcenter_server
+  username            = var.vcenter_username
+  password            = var.vcenter_password
+  host                = var.vcenter_host
   insecure_connection = var.insecure_connection
-  cluster                = var.vcenter_cluster
-  datastore              = var.vcenter_datastore
-  folder                 = var.vcenter_folder
-  convert_to_template    = true
+  cluster             = var.vcenter_cluster
+  datastore           = var.vcenter_datastore
+  folder              = var.vcenter_folder
+  convert_to_template = true
 
   # VM settings
   vm_name = var.vm_name
+
+  export {
+    force            = true
+    output_directory = "../exports/"
+    directory_permission = "0755"
+  }
 
   CPUs            = var.num_cpu
   RAM             = var.vm_ram
@@ -20,6 +26,8 @@ source "vsphere-iso" "pfsense" {
 
   storage {
     disk_size = var.root_disk_size
+    disk_thin_provisioned = false
+    disk_eagerly_scrub = true
   }
 
   network_adapters { # WAN
@@ -101,6 +109,12 @@ source "vsphere-iso" "pfsense" {
     # Main menu
     #   Update from console
     "13<wait><enter>",
+    #   Shell
+    "8<wait><enter>",
+    #   Install pkg pfSense-pkg-Open-VM-Tools
+    "pkg install -y pfSense-pkg-Open-VM-Tools<wait>",
+    "<enter><wait1m>",
+    "exit<wait><enter>",
     #   Halt system
     "6<wait>",
     "<enter><wait>",
