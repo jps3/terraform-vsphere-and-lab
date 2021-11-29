@@ -37,3 +37,7 @@ terraform.rc
 
 # direnv
 .envrc
+
+# local project Packer related
+packer/exports/*
+!./packer/exports/.gitkeep
