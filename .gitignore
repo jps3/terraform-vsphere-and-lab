@@ -39,5 +39,5 @@ terraform.rc
 .envrc
 
 # local project Packer related
-./packer/exports/*
+packer/exports/*
 !./packer/exports/.gitkeep
