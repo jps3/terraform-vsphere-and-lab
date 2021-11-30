@@ -15,8 +15,8 @@ source "vsphere-iso" "pfsense" {
   vm_name = var.vm_name
 
   export {
-    force            = true
-    output_directory = "../exports/"
+    force                = true
+    output_directory     = "../exports/${source.name}/"
     directory_permission = "0755"
   }
 
@@ -25,9 +25,9 @@ source "vsphere-iso" "pfsense" {
   RAM_reserve_all = true
 
   storage {
-    disk_size = var.root_disk_size
+    disk_size             = var.root_disk_size
     disk_thin_provisioned = false
-    disk_eagerly_scrub = true
+    disk_eagerly_scrub    = true
   }
 
   network_adapters { # WAN
