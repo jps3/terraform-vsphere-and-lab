@@ -63,10 +63,11 @@ source "vsphere-iso" "pfsense" {
     #       Default: continue with default (US)
     "<enter><wait>",
     #   Partitioning
-    #       Options: Auto (ZFS), Auto (UFS) Bios, Auto (UFS) UEFI, Manual, Shell
+    #       Options: Auto (ZFS), *Auto (UFS) Bios, Auto (UFS) UEFI, Manual, Shell
     #       Default: Auto (ZFS)
+    "A<wait>",
     "<enter><wait>",
-    #   ZFS Configuration
+    #   UFS Configuration
     #       Configuration Options
     #       Default: Proceed with Installation
     "<enter><wait>",
@@ -92,20 +93,20 @@ source "vsphere-iso" "pfsense" {
     "<wait1m>",
     # FIRST BOOT
     #   Should VLANs bet set up now [y|n]?
-    "n<wait2s>",
-    "<enter><wait2s>",
+    "n<wait>",
+    "<enter><wait>",
     #   WAN interface name
-    "vmx0<wait2s>",
-    "<enter><wait2s>",
+    "vmx0<wait>",
+    "<enter><wait>",
     #   LAN interface name
-    "vmx1<wait2s>",
-    "<enter><wait2s>",
+    "vmx1<wait>",
+    "<enter><wait>",
     #   OPT interface name
-    "vmx2<wait2s>",
-    "<enter><wait2s>",
+    "vmx2<wait>",
+    "<enter><wait>",
     #   Do you want to proceed? [y|n]
     "y<wait>",
-    "<enter><wait1m>",
+    "<enter><wait1m30s>",
     # Main menu
     #   Update from console
     "13<wait><enter>",
