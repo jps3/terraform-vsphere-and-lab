@@ -16,13 +16,13 @@ source "vsphere-iso" "pfsense" {
 
   export {
     force                = true
-    output_directory     = "../exports/${source.name}/"
-    directory_permission = "0755"
+    output_directory     = var.output_directory
   }
 
   CPUs            = var.num_cpu
   RAM             = var.vm_ram
   RAM_reserve_all = true
+  disk_controller_type = [var.disk_controller_type]
 
   storage {
     disk_size             = var.root_disk_size
@@ -32,13 +32,13 @@ source "vsphere-iso" "pfsense" {
 
   network_adapters { # WAN
     network      = var.vcenter_network
-    network_card = "vmxnet3"
+    network_card = var.network_card_type
   }
   network_adapters { # LAN
-    network_card = "vmxnet3"
+    network_card = var.network_card_type
   }
   network_adapters { # OPT1
-    network_card = "vmxnet3"
+    network_card = var.network_card_type
   }
 
   iso_paths = [
@@ -63,9 +63,9 @@ source "vsphere-iso" "pfsense" {
     #       Default: continue with default (US)
     "<enter><wait>",
     #   Partitioning
-    #       Options: Auto (ZFS), *Auto (UFS) Bios, Auto (UFS) UEFI, Manual, Shell
+    #       Options: Auto (ZFS), Auto (UFS) Bios, *Auto (UFS) UEFI, Manual, Shell
     #       Default: Auto (ZFS)
-    "A<wait>",
+    #"A<wait>",
     "<enter><wait>",
     #   UFS Configuration
     #       Configuration Options

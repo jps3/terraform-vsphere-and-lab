@@ -102,3 +102,18 @@ variable "vm_ram" {
   type    = number
   default = 1096
 }
+
+variable "output_directory" {
+  type = string
+  default = "../exports/"
+}
+
+variable "network_card_type" {
+  type = string
+  default = "vmxnet3"
+}
+
+variable "disk_controller_type" {
+  type = string
+  default = "lsilogic"
+}
