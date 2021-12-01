@@ -29,6 +29,11 @@ variable "vs_cluster_name" {
   default = "homelab"
 }
 
+variable "vs_resource_pool" {
+  type    = string
+  default = "resource_pool_0"
+}
+
 variable "vs_ds_default" {
   type    = string
   default = "datastore1"
@@ -37,4 +42,9 @@ variable "vs_ds_default" {
 variable "vs_ds_ssd" {
   type    = string
   default = "datastore2"
+}
+
+variable "vm_folder" {
+  type    = string
+  default = "VMs"
 }
