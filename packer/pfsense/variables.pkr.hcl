@@ -100,20 +100,20 @@ variable "num_cores" {
 
 variable "vm_ram" {
   type    = number
-  default = 1096
+  default = 1024
 }
 
 variable "output_directory" {
-  type = string
+  type    = string
   default = "../exports/"
 }
 
 variable "network_card_type" {
-  type = string
+  type    = string
   default = "vmxnet3"
 }
 
 variable "disk_controller_type" {
-  type = string
+  type    = string
   default = "lsilogic"
 }

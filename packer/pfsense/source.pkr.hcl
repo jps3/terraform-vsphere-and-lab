@@ -15,13 +15,13 @@ source "vsphere-iso" "pfsense" {
   vm_name = var.vm_name
 
   export {
-    force                = true
-    output_directory     = var.output_directory
+    force            = true
+    output_directory = var.output_directory
   }
 
-  CPUs            = var.num_cpu
-  RAM             = var.vm_ram
-  RAM_reserve_all = true
+  CPUs                 = var.num_cpu
+  RAM                  = var.vm_ram
+  RAM_reserve_all      = true
   disk_controller_type = [var.disk_controller_type]
 
   storage {
@@ -35,9 +35,11 @@ source "vsphere-iso" "pfsense" {
     network_card = var.network_card_type
   }
   network_adapters { # LAN
+    network      = var.vcenter_network
     network_card = var.network_card_type
   }
   network_adapters { # OPT1
+    network      = var.vcenter_network
     network_card = var.network_card_type
   }
 
@@ -110,11 +112,15 @@ source "vsphere-iso" "pfsense" {
     # Main menu
     #   Update from console
     "13<wait><enter>",
+    ##   Enable ssh
+    #"14<wait><enter>",
     #   Shell
     "8<wait><enter>",
-    #   Install pkg pfSense-pkg-Open-VM-Tools
+    #   Install pfSense-pkg-Open-VM-Tools
     "pkg install -y pfSense-pkg-Open-VM-Tools<wait>",
     "<enter><wait1m>",
+    #   Install pfSense-pkg-squid
+    "pkg install -y pfSense-pkg-squid",
     "exit<wait><enter>",
     #   Halt system
     "6<wait>",
