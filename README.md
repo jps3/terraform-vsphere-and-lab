@@ -20,10 +20,14 @@ Work in progress.
 - [ ] Ubuntu 18.04 _tbd_
 - [ ] Ubuntu 20.04 _tbd_
 
-## pfSense
+## pfSense Gateway
 
 ```bash
 cd packer/pfsense
 packer validate .
 packer build .
 ```
+
+After terraform deploys will need to configure manually, restore a previous backup, or see about creating a XML “backup” template to use. This is a rather manual-labor intensive part.
+
+## OpenBSD Bastion
