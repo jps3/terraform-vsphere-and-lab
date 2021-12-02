@@ -85,7 +85,7 @@ variable "vm_hardware_version" {
 
 variable "root_disk_size" {
   type    = number
-  default = 8000
+  default = 8192
 }
 
 variable "num_cpu" {
@@ -105,7 +105,7 @@ variable "vm_ram" {
 
 variable "output_directory" {
   type    = string
-  default = "../exports/pfsense/"
+  default = "${path.root}/../exports/pfsense/"
 }
 
 variable "network_card_type" {

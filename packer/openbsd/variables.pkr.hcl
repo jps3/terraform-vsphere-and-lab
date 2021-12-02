@@ -105,7 +105,7 @@ variable "vm_ram" {
 
 variable "output_directory" {
   type    = string
-  default = "../exports/"
+  default = "${path.root}/../exports/openbsd/"
 }
 
 variable "network_card_type" {
