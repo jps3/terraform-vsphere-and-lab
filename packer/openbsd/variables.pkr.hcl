@@ -85,7 +85,7 @@ variable "vm_hardware_version" {
 
 variable "disk_size" {
   type    = number
-  default = 8000
+  default = 2048
 }
 
 variable "num_cpu" {
