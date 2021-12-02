@@ -119,9 +119,6 @@ source "vsphere-iso" "pfsense" {
     #   Install pfSense-pkg-Open-VM-Tools
     "pkg install -y pfSense-pkg-Open-VM-Tools",
     "<enter><wait30s>",
-    #   Install pfSense-pkg-squid
-    "pkg install -y pfSense-pkg-squid",
-    "<enter><wait30s>",
     #   exit shell
     "exit<wait><enter>",
     #   Halt system
