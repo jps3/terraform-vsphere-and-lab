@@ -12,17 +12,16 @@ source "vsphere-iso" "pfsense" {
   convert_to_template = true
 
   # VM settings
-  vm_name = var.vm_name
+  vm_name              = var.vm_name
+  CPUs                 = var.num_cpu
+  RAM                  = var.vm_ram
+  RAM_reserve_all      = true
+  disk_controller_type = [var.disk_controller_type]
 
   export {
     force            = true
     output_directory = var.output_directory
   }
-
-  CPUs                 = var.num_cpu
-  RAM                  = var.vm_ram
-  RAM_reserve_all      = true
-  disk_controller_type = [var.disk_controller_type]
 
   storage {
     disk_size             = var.root_disk_size
@@ -34,10 +33,12 @@ source "vsphere-iso" "pfsense" {
     network      = var.vcenter_network
     network_card = var.network_card_type
   }
+
   network_adapters { # LAN
     network      = var.vcenter_network
     network_card = var.network_card_type
   }
+
   network_adapters { # OPT1
     network      = var.vcenter_network
     network_card = var.network_card_type
@@ -46,6 +47,7 @@ source "vsphere-iso" "pfsense" {
   iso_paths = [
     "[${var.iso_datastore}] ${var.iso_path}"
   ]
+
   iso_checksum = var.iso_checksum
 
   # Boot commands
@@ -67,10 +69,8 @@ source "vsphere-iso" "pfsense" {
     #   Partitioning
     #       Options: Auto (ZFS), Auto (UFS) Bios, *Auto (UFS) UEFI, Manual, Shell
     #       Default: Auto (ZFS)
-    #"A<wait>",
     "<enter><wait>",
-    #   UFS Configuration
-    #       Configuration Options
+    #   ZFS Configuration Options
     #       Default: Proceed with Installation
     "<enter><wait>",
     #       Select Virtual Device type
@@ -81,8 +81,7 @@ source "vsphere-iso" "pfsense" {
     "<enter><wait>",
     #       Proceed? y/N
     "y",
-    #       ... wait for installation ...
-    "<wait1m>",
+    "<wait30s>",
     #   Manual Configuration
     #       Default: No
     "<enter><wait>",
@@ -99,34 +98,37 @@ source "vsphere-iso" "pfsense" {
     "<enter><wait>",
     #   WAN interface name
     "vmx0<wait>",
-    "<enter><wait>",
+    "<enter><wait2>",
     #   LAN interface name
     "vmx1<wait>",
-    "<enter><wait>",
+    "<enter><wait2>",
     #   OPT interface name
     "vmx2<wait>",
-    "<enter><wait>",
+    "<enter><wait2>",
     #   Do you want to proceed? [y|n]
     "y<wait>",
-    "<enter><wait1m30s>",
+    "<enter><wait1m>",
     # Main menu
     #   Update from console
-    "13<wait><enter>",
-    ##   Enable ssh
-    #"14<wait><enter>",
-    #   Shell
-    "8<wait><enter>",
-    #   Install pfSense-pkg-Open-VM-Tools
-    "pkg install -y pfSense-pkg-Open-VM-Tools<wait>",
+    "13<wait>",
     "<enter><wait1m>",
+    #   Shell
+    "8<wait>",
+    "<enter><wait5>",
+    #   Install pfSense-pkg-Open-VM-Tools
+    "pkg install -y pfSense-pkg-Open-VM-Tools",
+    "<enter><wait30s>",
     #   Install pfSense-pkg-squid
     "pkg install -y pfSense-pkg-squid",
+    "<enter><wait30s>",
+    #   exit shell
     "exit<wait><enter>",
     #   Halt system
     "6<wait>",
     "<enter><wait>",
     #   Do you want to proceed? [y|n]
-    "y<enter>"
+    "y<enter>",
+    "<wait1m>"
   ]
 
   communicator = "none"
