@@ -41,3 +41,4 @@ terraform.rc
 # local project Packer related
 packer/exports/*
 !./packer/exports/.gitkeep
+packer/**/*.auto.pkrvars.hcl
