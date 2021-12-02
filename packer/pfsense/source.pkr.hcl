@@ -66,20 +66,20 @@ source "vsphere-iso" "pfsense" {
     "<enter><wait>",
     #   Keymap Selection
     #       Default: continue with default (US)
-    "<enter><wait>",
+    "<enter><wait2s>",
     #   Partitioning
     #       Options: Auto (ZFS), Auto (UFS) Bios, *Auto (UFS) UEFI, Manual, Shell
     #       Default: Auto (ZFS)
-    "<enter><wait>",
+    "<enter><wait2s>",
     #   ZFS Configuration Options
     #       Default: Proceed with Installation
-    "<enter><wait>",
+    "<enter><wait2s>",
     #       Select Virtual Device type
     #       Default: stripe
-    "<enter><wait>",
+    "<enter><wait2s>",
     #       select device
-    "<spacebar><wait>",
-    "<enter><wait>",
+    "<spacebar><wait2s>",
+    "<enter><wait2s>",
     #       Proceed? y/N
     "y",
     "<wait30s>",
