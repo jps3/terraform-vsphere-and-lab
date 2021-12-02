@@ -65,7 +65,7 @@ variable "iso_checksum" {
 
 variable "guest_os_type" {
   type    = string
-  default = "freebsd64Guest"
+  default = "freebsd12_64Guest"
 }
 
 variable "convert_to_template" {
@@ -105,7 +105,7 @@ variable "vm_ram" {
 
 variable "output_directory" {
   type    = string
-  default = "../exports/"
+  default = "../exports/pfsense/"
 }
 
 variable "network_card_type" {

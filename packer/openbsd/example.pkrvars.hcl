@@ -2,7 +2,7 @@
 # automatic inclusion and use with `packer build .`
 
 vcenter_datacenter  = "dc"
-vcenter_cluster     = "cluser0"
+vcenter_cluster     = "cluster0"
 vcenter_datastore   = "datastore1"
 vcenter_host        = "esx1.local"
 vcenter_folder      = "Templates"

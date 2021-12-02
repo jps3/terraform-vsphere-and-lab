@@ -13,6 +13,7 @@ source "vsphere-iso" "pfsense" {
 
   # VM settings
   vm_name              = var.vm_name
+  guest_os_type        = var.guest_os_type
   CPUs                 = var.num_cpu
   RAM                  = var.vm_ram
   RAM_reserve_all      = true
