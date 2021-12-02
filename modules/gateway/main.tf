@@ -3,17 +3,21 @@ variable "resource_pool" {}
 variable "datastore" {}
 variable "vm_folder" {}
 
-# TODO: move this to root and refactor modules/network-structure to also use
 locals {
+
+  template_name = "pfsense-2.5.2"
+
+  # TODO: move this to root and refactor modules/network-structure to also use
   networks = toset([
     "Bridged",
     "Management",
     "IPS1"
   ])
+
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "pfsense-2.5.2"
+  name          = local.template_name
   datacenter_id = var.datacenter.id
 }
 
