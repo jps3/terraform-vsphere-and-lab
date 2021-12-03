@@ -21,13 +21,13 @@ source "vsphere-iso" "pfsense" {
 
   export {
     force            = true
-    output_directory = var.output_directory
+    output_directory = "${path.root}/${var.output_directory}"
   }
 
   storage {
     disk_size             = var.root_disk_size
     disk_thin_provisioned = false
-    disk_eagerly_scrub    = true
+    disk_eagerly_scrub    = false
   }
 
   network_adapters { # WAN
@@ -115,7 +115,7 @@ source "vsphere-iso" "pfsense" {
     "<enter><wait1m>",
     #   Shell
     "8<wait>",
-    "<enter><wait5>",
+    "<enter><wait5s>",
     #   Install pfSense-pkg-Open-VM-Tools
     "pkg install -y pfSense-pkg-Open-VM-Tools",
     "<enter><wait30s>",

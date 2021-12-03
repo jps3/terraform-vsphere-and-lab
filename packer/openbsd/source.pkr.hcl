@@ -23,13 +23,13 @@ source "vsphere-iso" "openbsd" {
 
   export {
     force            = true
-    output_directory = var.output_directory
+    output_directory = "${path.root}/${var.output_directory}"
   }
 
   storage {
     disk_size             = var.disk_size
     disk_thin_provisioned = false
-    disk_eagerly_scrub    = true
+    disk_eagerly_scrub    = false
   }
 
   network_adapters { # WAN

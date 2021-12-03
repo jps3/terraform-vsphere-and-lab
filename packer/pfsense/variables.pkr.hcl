@@ -105,7 +105,7 @@ variable "vm_ram" {
 
 variable "output_directory" {
   type    = string
-  default = "${path.root}/../exports/pfsense/"
+  default = "../exports/pfsense"
 }
 
 variable "network_card_type" {
