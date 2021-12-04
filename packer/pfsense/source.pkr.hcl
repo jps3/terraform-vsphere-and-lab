@@ -58,7 +58,8 @@ source "vsphere-iso" "pfsense" {
     ##################################################
     # INSTALL
     ##################################################
-    #   Copyright
+    #   Copyright and Distribution Notice
+    #       Default: Accept
     "<enter><wait>",
     #   Welcome
     #       Options: Install, Rescue Shell, Recover config.xml
@@ -80,19 +81,20 @@ source "vsphere-iso" "pfsense" {
     #       select device
     "<spacebar><wait2s>",
     "<enter><wait2s>",
+    #   Installation
     #       Proceed? y/N
     "y",
-    "<wait30s>",
+    "<wait1m>",
     #   Manual Configuration
     #       Default: No
-    "<enter><wait>",
+    "<enter><wait2s>",
     #   Complete
     #       Default: Reboot
     "<enter>",
     ##################################################
     # FIRST BOOT
     ##################################################
-    "<wait1m>",
+    "<wait45s>",
     # FIRST BOOT
     #   Should VLANs bet set up now [y|n]?
     "n<wait>",
@@ -110,23 +112,23 @@ source "vsphere-iso" "pfsense" {
     "y<wait>",
     "<enter><wait1m>",
     # Main menu
-    #   Update from console
+    #   13. Update from console
     "13<wait>",
-    "<enter><wait1m>",
-    #   Shell
+    "<enter><wait2m>",
+    #   8. Shell
     "8<wait>",
     "<enter><wait5s>",
-    #   Install pfSense-pkg-Open-VM-Tools
+    #     Install pfSense-pkg-Open-VM-Tools
     "pkg install -y pfSense-pkg-Open-VM-Tools",
     "<enter><wait30s>",
-    #   exit shell
+    #     exit shell
     "exit<wait><enter>",
-    #   Halt system
+    #   6. Halt system
     "6<wait>",
     "<enter><wait>",
-    #   Do you want to proceed? [y|n]
-    "y<enter>",
-    "<wait1m>"
+    #     Do you want to proceed [y|n]?
+    "y<wait>",
+    "<enter><wait>"
   ]
 
   communicator = "none"
