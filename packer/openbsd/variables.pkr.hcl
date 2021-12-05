@@ -45,7 +45,7 @@ variable "vcenter_network" {
 
 variable "vm_name" {
   type    = string
-  default = "pfsense-template"
+  default = "openbsd-template"
 }
 
 variable "iso_datastore" {
