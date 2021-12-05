@@ -4,8 +4,7 @@ variable "datastore" {}
 variable "vm_folder" {}
 
 locals {
-
-  template_name = "pfsense-2.5.2"
+  template_name = "pfsense-2.5.2-amd64"
 
   # TODO: move this to root and refactor modules/network-structure to also use
   networks = toset([
@@ -13,7 +12,6 @@ locals {
     "Management",
     "IPS1"
   ])
-
 }
 
 data "vsphere_virtual_machine" "template" {
@@ -42,8 +40,7 @@ resource "vsphere_virtual_machine" "gateway" {
   resource_pool_id           = var.resource_pool.id
   datastore_id               = var.datastore.id
   folder                     = var.vm_folder
-  guest_id                   = "otherGuest"
-  alternate_guest_name       = "freebsd12_64Guest"
+  guest_id                   = "freebsd12_64Guest"
   scsi_type                  = data.vsphere_virtual_machine.template.scsi_type
   num_cpus                   = data.vsphere_virtual_machine.template.num_cpus
   memory                     = data.vsphere_virtual_machine.template.memory
@@ -58,10 +55,8 @@ resource "vsphere_virtual_machine" "gateway" {
   }
 
   disk {
-    size             = 8
-    label            = "disk0"
-    thin_provisioned = false
-    eagerly_scrub    = true
+    label = "disk0"
+    size  = 8
   }
 
   clone {
@@ -70,6 +65,6 @@ resource "vsphere_virtual_machine" "gateway" {
 
 }
 
-output "guest-ip" {
-  value = vsphere_virtual_machine.gateway.*.guest_ip_addresses
+output "default-ip" {
+  value = one(vsphere_virtual_machine.gateway.*.default_ip_address)
 }

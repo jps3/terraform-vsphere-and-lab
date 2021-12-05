@@ -27,8 +27,9 @@ source "vsphere-iso" "openbsd" {
   }
 
   storage {
-    disk_size             = var.disk_size
-    disk_thin_provisioned = false
+    disk_size = var.disk_size
+    # Thin Provisioned
+    disk_thin_provisioned = true
     disk_eagerly_scrub    = false
   }
 

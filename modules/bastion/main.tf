@@ -52,28 +52,16 @@ resource "vsphere_virtual_machine" "bastion" {
   }
 
   disk {
-    label = "Hard disk 1"
+    label = "disk0"
     size  = 2
-    #
-    # Note:
-    #   Above hard-coded values made since vm template data does not seem 
-    #   available here before this resource is created. Unsure why since 
-    #   terraform examples appear to imply this will work (shown in 
-    #   vsphere-iso examples).
-    #
-    #label            = data.vsphere_virtual_machine.template.disks.0.label
-    #size             = data.vsphere_virtual_machine.template.disks.0.size
-    #thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    #eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
   }
 
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
-    #linked_clone  = true
   }
 
 }
 
 output "default-ip" {
-  value = vsphere_virtual_machine.bastion.*.default_ip_address
+  value = one(vsphere_virtual_machine.bastion.*.default_ip_address)
 }
