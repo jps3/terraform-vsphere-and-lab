@@ -70,4 +70,5 @@ source "vsphere-iso" "openbsd" {
   ssh_username            = "root"
   ssh_password            = "${var.root_password}"
   shutdown_command        = "halt -p"
+  remove_cdrom            = true
 }

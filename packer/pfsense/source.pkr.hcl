@@ -133,4 +133,5 @@ source "vsphere-iso" "pfsense" {
   ]
 
   communicator = "none"
+  remove_cdrom = true
 }
