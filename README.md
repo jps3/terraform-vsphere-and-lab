@@ -16,7 +16,8 @@ Work in progress.
 # VM Templates
 
 - [x] pfSense
-- [ ] OpenBSD as ssh bastion host _tbd_
+	- [ ] alternate OPNsense (packer builds but open-vm-tools not quite working)
+- [x] OpenBSD as ssh bastion host
 - [ ] Ubuntu 18.04 _tbd_
 - [ ] Ubuntu 20.04 _tbd_
 
