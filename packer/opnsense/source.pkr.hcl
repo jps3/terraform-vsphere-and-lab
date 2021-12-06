@@ -54,7 +54,7 @@ source "vsphere-iso" "opnsense" {
   # Boot commands
   boot_wait = "1m30s"
   boot_command = [
-    # Following works with opnsense 21.7.1
+    # Following works with OPNsense 21.7.1
     ##################################################
     # INSTALL
     ##################################################
@@ -84,7 +84,7 @@ source "vsphere-iso" "opnsense" {
     #       Options: Exit, Root Password
     #       Default: Exit
     "<enter>",
-    "<wait2m>",
+    "<wait1m>",
     ##################################################
     # FIRST BOOT
     ##################################################
@@ -110,36 +110,30 @@ source "vsphere-iso" "opnsense" {
     #   Do you want to proceed? [y|N]
     "y<wait>",
     "<enter><wait30s>",
-    "<wait1h>",
     #   8. Shell
     "8<wait>",
-    "<enter><wait5s>",
+    "<enter><wait2s>",
     #     Install open-vm-tools-nox11 (TODO: install the FUSE kernel module?)
     "pkg install -y open-vm-tools-nox11",
     "<enter><wait30s>",
+    # Enable suggested kernel module
+    "kldload fusefs<wait>",
+    "<enter><wait5s>",
+    # Enable at boot time
+    "echo fusefs_load=YES >> /boot/loader.conf.local<enter>",
+    # #     Update OPNsense
+    # "opnsense-update -e",
+    # "<enter><wait15m>",
     #     exit shell
     "exit<wait><enter>",
-    # Main menu
-    #   12. Update from console
-    "12<wait>",
-    "<enter><wait30s>",
-    #       proceed? [y|N]
+    #   6. Halt system
+    "5<wait>",
+    "<enter><wait2s>",
+    #     The system will halt and power off [y/N]
     "y<wait>",
-    "<enter><wait5m>",
-    ##################################################
-    # (POSSIBLE) SECOND BOOT
-    #   If so would need to log in again, but no
-    #   way to check here. Since open-vm-tools
-    #   should be installed, we should be able to
-    #   let Packer end the process.
-    ##################################################
+    "<enter><wait1m>"
   ]
 
   communicator            = "none"
-  #communicator            = "ssh"
-  #pause_before_connecting = "1m"
-  #ssh_username            = "root"
-  #ssh_password            = "opnsense"
-  #shutdown_command        = ""
   remove_cdrom            = true
 }
