@@ -134,6 +134,6 @@ source "vsphere-iso" "opnsense" {
     "<enter><wait1m>"
   ]
 
-  communicator            = "none"
-  remove_cdrom            = true
+  communicator = "none"
+  remove_cdrom = true
 }
