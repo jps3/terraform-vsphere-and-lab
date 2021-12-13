@@ -18,6 +18,11 @@ variable "vcenter_cluster" {
   default = ""
 }
 
+variable "vcenter_resource_pool" {
+  type    = string
+  default = ""
+}
+
 variable "vcenter_datacenter" {
   type    = string
   default = ""
@@ -103,11 +108,6 @@ variable "vm_ram" {
   default = 1024
 }
 
-variable "output_directory" {
-  type    = string
-  default = "../exports/openbsd"
-}
-
 variable "network_card_type" {
   type    = string
   default = "vmxnet3"
@@ -120,27 +120,31 @@ variable "disk_controller_type" {
 
 variable "root_password" {
   type    = string
-  default = "P@s5w0rd"
+  default = null
 }
 
 variable "first_user_username" {
   type    = string
-  default = "vagrant"
+  default = null
 }
 
 variable "first_user_password" {
   type    = string
-  default = "P@s5w0rd"
+  default = "*************"
   # disable password logins per https://man.openbsd.org/autoinstall
-  #default = "*************"
 }
 
 variable "first_user_pubkey" {
   type    = string
-  default = ""
+  default = null
 }
 
 variable "tz" {
   type    = string
   default = "UTC"
+}
+
+variable "packer_cache_dir" {
+  type    = string
+  default = env("PACKER_CACHE_DIR")
 }
