@@ -6,7 +6,6 @@ variable "vm_folder" {}
 locals {
   template_name = "pfsense-2.5.2-amd64"
 
-  # TODO: move this to root and refactor modules/network-structure to also use
   networks = toset([
     "Bridged",
     "Management",
