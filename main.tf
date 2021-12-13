@@ -8,6 +8,8 @@ provider "vsphere" {
   allow_unverified_ssl = var.vs_insecure_connection
 }
 
+provider "random" {}
+
 
 # ╭─────────────────────────────────╮
 # │    ┏┳┓┏━┓╺┳┓╻ ╻╻  ┏━╸┏━┓        │
