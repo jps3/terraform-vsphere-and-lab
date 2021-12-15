@@ -51,7 +51,7 @@ source "vsphere-iso" "openbsd" {
     #"IPv4 address for vmx0 = autoconf<enter>",
     #"IPv6 address for vmx0 = none<enter>",
     #"Which network interface do you wish to configure = done<enter>",
-    "Password for root = ${local.random_password}<enter>",
+    "Password for root = ${var.root_password}<enter>",
     #"Start sshd(8) by default = yes<enter>",
     "Do you expect to run the X Window System = no<enter>",
     #"Setup a user = ${var.first_user_username}<enter>",
@@ -71,7 +71,7 @@ source "vsphere-iso" "openbsd" {
   ]
   communicator              = "ssh"
   ssh_username              = "root"
-  ssh_password              = "${local.random_password}"
+  ssh_password              = "${var.root_password}"
   ssh_clear_authorized_keys = true
   shutdown_command          = "halt -p"
   remove_cdrom              = true

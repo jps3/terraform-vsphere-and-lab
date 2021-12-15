@@ -1,7 +1,3 @@
-local "random_password" {
-  expression = sha1(uuidv4())
-}
-
 local "exports_directory" {
   expression = "${path.root}/../exports/"
 }

@@ -4,43 +4,47 @@ packer {
       version = ">= 1.0.2"
       source  = "github.com/hashicorp/vsphere"
     }
-    sshkey = {
-      version = ">= 0.1.0"
-      source  = "github.com/ivoronin/sshkey"
-    }
   }
 }
-
-data "sshkey" "install" {}
 
 build {
   sources = ["source.vsphere-iso.openbsd"]
 
-  provisioner "file" {
-    content     = data.sshkey.install.public_key
-    destination = "/tmp/root_ssh_pubkey.txt"
-  }
-
   provisioner "shell" {
-    inline = [
-      "(echo 'restrict '; cat /tmp/root_ssh_pubkey.txt) >> /root/.ssh/authorized_keys"
-    ]
-  }
-
-  provisioner "shell" {
-    pause_before = "30s"
-    pause_after = "30s"
+    pause_before      = "30s"
+    pause_after       = "1m"
     expect_disconnect = true
     scripts = [
       "${path.root}/scripts/syspatch.sh",
-      "${path.root}/scripts/package-update.sh"
+      "${path.root}/scripts/package-update.sh",
+      "${path.root}/scripts/package-installs.sh"
     ]
+  }
+
+  provisioner "file" {
+    content = templatefile("files/etc-adduser.pkrtpl.conf", {
+      encryptionmethod = "auto",
+      defaultshell     = "nologin",
+      defaultgroup     = "USER",
+      defaultclass     = "default"
+    })
+    destination = "/etc/adduser.conf"
+  }
+
+  provisioner "file" {
+    content = templatefile("files/etc-ssh-sshd_config.pkrtpl", {
+      allow_agent_forwarding  = "no",
+      allow_tcp_forwarding    = "no",
+      password_authentication = "yes",
+      permit_root_login       = "yes"
+    })
+    destination = "/etc/ssh/sshd_config"
   }
 
   post-processor "manifest" {
     output = "${local.exports_directory}/${var.vm_name}.json"
     custom_data = {
-      root_password           = local.random_password
+      root_password           = var.root_password
       buildtime               = local.buildtime
       vm_num_cpu              = var.num_cpu
       vm_num_cores            = var.num_cores

@@ -120,7 +120,7 @@ variable "disk_controller_type" {
 
 variable "root_password" {
   type    = string
-  default = null
+  default = "P@s5w0rd"
 }
 
 variable "first_user_username" {
