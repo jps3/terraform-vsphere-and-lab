@@ -38,6 +38,9 @@ terraform.rc
 # direnv
 .envrc
 
+# macOS items
+.DS_Store
+
 # local project Packer related
 packer/cache/*
 !packer/cache/.gitkeep
