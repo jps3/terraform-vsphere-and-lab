@@ -21,11 +21,11 @@ source "vsphere-iso" "opnsense" {
 
   export {
     force            = true
-    output_directory = "${path.root}/${var.output_directory}"
+    output_directory = "${local.exports_directory}"
   }
 
   storage {
-    disk_size             = var.root_disk_size
+    disk_size             = var.disk_size
     disk_thin_provisioned = false
     disk_eagerly_scrub    = false
   }
@@ -51,6 +51,9 @@ source "vsphere-iso" "opnsense" {
 
   iso_checksum = var.iso_checksum
 
+  #cd_files = ["${path.root}/files/*"]
+  #cd_label = "backups"
+
   # Boot commands
   boot_wait = "1m30s"
   boot_command = [
@@ -70,7 +73,11 @@ source "vsphere-iso" "opnsense" {
     #       Default: Install (UFS)
     "<enter><wait>",
     #   UFS Configuration: select disk
-    #       Options: cd0, da0
+    #       (da* appears to be LSI Logic SCSI controller)
+    #       (ata* appears to be SATA controller)
+    #       (TODO: Maybe pick *ONE* and hard-code it since
+    #              we cannot put logic here.)
+    #       Options: cd0, da0, ata0, ...?
     #       Default: cd0
     "d<wait>",
     "<enter><wait>",
@@ -113,17 +120,6 @@ source "vsphere-iso" "opnsense" {
     #   8. Shell
     "8<wait>",
     "<enter><wait2s>",
-    #     Install open-vm-tools-nox11 (TODO: install the FUSE kernel module?)
-    "pkg install -y open-vm-tools-nox11",
-    "<enter><wait30s>",
-    # Enable suggested kernel module
-    "kldload fusefs<wait>",
-    "<enter><wait5s>",
-    # Enable at boot time
-    "echo fusefs_load=YES >> /boot/loader.conf.local<enter>",
-    # #     Update OPNsense
-    # "opnsense-update -e",
-    # "<enter><wait15m>",
     #     exit shell
     "exit<wait><enter>",
     #   6. Halt system

@@ -21,11 +21,11 @@ source "vsphere-iso" "pfsense" {
 
   export {
     force            = true
-    output_directory = "${path.root}/${var.output_directory}"
+    output_directory = "${local.exports_directory}"
   }
 
   storage {
-    disk_size = var.root_disk_size
+    disk_size = var.disk_size
     # Thin Provisioned
     disk_thin_provisioned = true
     disk_eagerly_scrub    = false

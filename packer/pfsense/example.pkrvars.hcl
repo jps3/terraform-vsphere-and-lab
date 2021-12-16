@@ -15,4 +15,4 @@ vm_name             = "pfsense-2.5.2-amd64"
 #num_cpu             = 1
 #num_cores           = 1
 #vm_ram              = 1024 # MiB
-#root_disk_size      = 8192 # MiB
+#disk_size      = 8192 # MiB
