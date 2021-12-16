@@ -42,6 +42,7 @@ module "bastion" {
   source        = "./modules/bastion"
   depends_on = [
     module.network_structure,
+    module.gateway,
     resource.vsphere_folder.vm_folder
   ]
 }
