@@ -92,4 +92,6 @@ Subsystem	sftp	/usr/libexec/sftp-server
 #	PermitTTY no
 #	ForceCommand cvs server
 
-Include /etc/ssh/sshd_config.d/*.conf
+Match Group ${allowed_proxy_group}
+    PermitTTY             no
+    AllowTcpForwarding    yes

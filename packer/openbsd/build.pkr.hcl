@@ -21,8 +21,12 @@ build {
     ]
   }
 
+  provisioner "shell" {
+    inline = ["/usr/sbin/groupadd ${var.allowed_ssh_proxy_group}"]
+  }
+
   provisioner "file" {
-    content = templatefile("files/etc-adduser.pkrtpl.conf", {
+    content = templatefile("files/adduser.conf.pkrtpl.hcl", {
       encryptionmethod = "auto",
       defaultshell     = "nologin",
       defaultgroup     = "USER",
@@ -32,13 +36,28 @@ build {
   }
 
   provisioner "file" {
-    content = templatefile("files/etc-ssh-sshd_config.pkrtpl", {
+    content = templatefile("files/sshd_config.pkrtpl.hcl", {
       allow_agent_forwarding  = "no",
       allow_tcp_forwarding    = "no",
       password_authentication = "yes",
-      permit_root_login       = "yes"
+      permit_root_login       = "yes",
+      allowed_proxy_group     = "${var.allowed_ssh_proxy_group}"
     })
     destination = "/etc/ssh/sshd_config"
+  }
+
+  provisioner "file" {
+    content = templatefile("files/add_proxy_user.pkrtpl.hcl", {
+      allowed_proxy_group     = "${var.allowed_ssh_proxy_group}"
+    })
+    destination = "/usr/local/sbin/add_proxy_user"
+  }
+
+  provisioner "shell" {
+    inline = [
+      "chmod 0750 /usr/local/sbin/add_proxy_user",
+      "chown root:wheel /usr/local/sbin/add_proxy_user"
+    ]
   }
 
   post-processor "manifest" {
