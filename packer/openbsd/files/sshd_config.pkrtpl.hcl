@@ -26,10 +26,10 @@
 
 # Authentication:
 
-#LoginGraceTime 2m
+LoginGraceTime 20
 PermitRootLogin ${permit_root_login}
 #StrictModes yes
-#MaxAuthTries 6
+MaxAuthTries 3
 #MaxSessions 10
 
 #PubkeyAuthentication yes
@@ -59,7 +59,7 @@ PasswordAuthentication ${password_authentication}
 #KbdInteractiveAuthentication yes
 
 AllowAgentForwarding ${allow_agent_forwarding}
-#AllowTcpForwarding yes
+AllowTcpForwarding no
 #GatewayPorts no
 #X11Forwarding no
 #X11DisplayOffset 10
