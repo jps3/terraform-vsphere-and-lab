@@ -47,12 +47,6 @@ data "vsphere_host" "hs" {
   datacenter_id = var.datacenter.id
 }
 
-#resource "null_resource" "timer" {
-#  provisioner "local-exec" {
-#    command = "sleep 1200"
-#  }
-#}
-
 resource "vsphere_virtual_machine" "gateway" {
   name                       = "gateway"
   resource_pool_id           = var.resource_pool.id
@@ -88,5 +82,4 @@ resource "vsphere_virtual_machine" "gateway" {
 
 output "default-ip" {
   value = one(vsphere_virtual_machine.gateway.*.default_ip_address)
-  #depends_on = [resource.null_resource.timer]
 }
