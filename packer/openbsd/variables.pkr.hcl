@@ -145,7 +145,7 @@ variable "tz" {
 }
 
 variable "allowed_ssh_proxy_group" {
-  type = string
-  default = "labproxy"
+  type        = string
+  default     = "labproxy"
   description = "Group name for all ssh proxy users"
 }
