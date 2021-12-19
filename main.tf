@@ -74,6 +74,10 @@ resource "vsphere_folder" "vm_folder" {
 # │    ┗━┛┗━┛ ╹ ╹  ┗━┛ ╹ ┗━┛    │
 # ╰─────────────────────────────╯
 
+output "vsphere-folder" {
+  value = resource.vsphere_folder.vm_folder.path
+}
+
 output "gateway-ip" {
   value = module.gateway.default-ip
 }
