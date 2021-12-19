@@ -29,7 +29,7 @@ build {
     content = templatefile("files/adduser.conf.pkrtpl.hcl", {
       encryptionmethod = "auto",
       defaultshell     = "nologin",
-      defaultgroup     = "USER",
+      defaultgroup     = "${var.allowed_ssh_proxy_group}",
       defaultclass     = "default"
     })
     destination = "/etc/adduser.conf"
@@ -48,7 +48,7 @@ build {
 
   provisioner "file" {
     content = templatefile("files/add_proxy_user.pkrtpl.hcl", {
-      allowed_proxy_group     = "${var.allowed_ssh_proxy_group}"
+      allowed_proxy_group = "${var.allowed_ssh_proxy_group}"
     })
     destination = "/usr/local/sbin/add_proxy_user"
   }
