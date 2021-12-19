@@ -19,7 +19,7 @@ provider "random" {}
 
 module "network_structure" {
   vsphere_host_id = data.vsphere_host.vs_esx_host.id
-  source          = "./modules/network-structure"
+  source          = "./modules/network"
 }
 
 module "gateway" {
