@@ -105,7 +105,7 @@ variable "num_cores" {
 
 variable "vm_ram" {
   type    = number
-  default = 1024
+  default = 512
 }
 
 variable "network_card_type" {

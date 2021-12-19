@@ -40,8 +40,8 @@ resource "vsphere_virtual_machine" "bastion" {
   folder                     = var.vm_folder
   guest_id                   = "otherGuest64"
   scsi_type                  = data.vsphere_virtual_machine.template.scsi_type
-  num_cpus                   = data.vsphere_virtual_machine.template.num_cpus
-  memory                     = data.vsphere_virtual_machine.template.memory
+  num_cpus                   = data.vsphere_virtual_machine.template.num_cpus == null ? 1   : data.vsphere_virtual_machine.template.num_cpus
+  memory                     = data.vsphere_virtual_machine.template.memory   == null ? 512 : data.vsphere_virtual_machine.template.memory
   wait_for_guest_net_timeout = 0
   wait_for_guest_ip_timeout  = 5
 
