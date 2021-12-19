@@ -144,11 +144,6 @@ variable "tz" {
   default = "UTC"
 }
 
-variable "packer_cache_dir" {
-  type    = string
-  default = env("PACKER_CACHE_DIR")
-}
-
 variable "allowed_ssh_proxy_group" {
   type = string
   default = "labproxy"
