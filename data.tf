@@ -34,7 +34,7 @@ data "vsphere_datastore" "ssd" {
 }
 
 data "vsphere_folder" "vm_folder" {
-  path = "/${data.vsphere_datacenter.dc.name}/vm/${var.vm_folder}"
+  path = resource.vsphere_folder.vm_folder.path
   depends_on = [
     resource.vsphere_folder.vm_folder
   ]

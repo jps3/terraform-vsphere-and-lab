@@ -3,18 +3,28 @@ variable "resource_pool" {}
 variable "datastore" {}
 variable "vm_folder" {}
 
+# TODO: 
+#   - If   template_name contains 'pfSense'  then iface/network order is WAN, LAN, OPT1
+#   - Elif template_name contains 'opnsense' then iface/network order is LAN, WAN, OPT1
+#   - Create mapping of network name <--> fixed mac address
+
 locals {
-
-  template_name = "pfsense-2.5.2"
-
-  # TODO: move this to root and refactor modules/network-structure to also use
-  networks = toset([
-    "Bridged",
-    "Management",
-    "IPS1"
-  ])
-
+  template_name = "pfsense-2.5.2-amd64"
+  networks = tomap({
+    "Bridged" : "00:50:56:ba:d8:16",
+    "Management" : null,
+    "IPS1" : null
+  })
 }
+
+#locals {
+#  template_name = "opnsense-21.7.1-amd64"
+#  networks = tomap({
+#    "Management" : null,
+#    "Bridged" : "00:50:56:ba:d8:16",
+#    "IPS1" : null
+#  })
+#}
 
 data "vsphere_virtual_machine" "template" {
   name          = local.template_name
@@ -42,26 +52,26 @@ resource "vsphere_virtual_machine" "gateway" {
   resource_pool_id           = var.resource_pool.id
   datastore_id               = var.datastore.id
   folder                     = var.vm_folder
-  guest_id                   = "otherGuest"
-  alternate_guest_name       = "freebsd12_64Guest"
+  guest_id                   = "freebsd12_64Guest"
+  scsi_controller_count      = 1
   scsi_type                  = data.vsphere_virtual_machine.template.scsi_type
-  num_cpus                   = data.vsphere_virtual_machine.template.num_cpus
-  memory                     = data.vsphere_virtual_machine.template.memory
+  num_cpus                   = 1
+  memory                     = 2048
   wait_for_guest_net_timeout = 0
   wait_for_guest_ip_timeout  = 5
 
   dynamic "network_interface" {
     for_each = local.networks
     content {
-      network_id = data.vsphere_network.network[network_interface.key].id
+      network_id     = data.vsphere_network.network[network_interface.key].id
+      use_static_mac = local.networks[data.vsphere_network.network[network_interface.key].name] == null ? false : true
+      mac_address    = local.networks[data.vsphere_network.network[network_interface.key].name] == null ? "" : local.networks[data.vsphere_network.network[network_interface.key].name]
     }
   }
 
   disk {
-    size             = 8
-    label            = "disk0"
-    thin_provisioned = false
-    eagerly_scrub    = true
+    label = "disk0"
+    size  = 8
   }
 
   clone {
@@ -70,6 +80,6 @@ resource "vsphere_virtual_machine" "gateway" {
 
 }
 
-output "guest-ip" {
-  value = vsphere_virtual_machine.gateway.*.guest_ip_addresses
+output "default-ip" {
+  value = one(vsphere_virtual_machine.gateway.*.default_ip_address)
 }

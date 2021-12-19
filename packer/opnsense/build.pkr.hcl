@@ -9,7 +9,7 @@ packer {
 
 build {
   sources = [
-    "source.vsphere-iso.pfsense"
+    "source.vsphere-iso.opnsense"
   ]
   post-processor "manifest" {
     output = "${local.exports_directory}/${var.vm_name}.json"

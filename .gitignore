@@ -38,6 +38,12 @@ terraform.rc
 # direnv
 .envrc
 
+# macOS items
+.DS_Store
+
 # local project Packer related
+packer/cache/*
+!packer/cache/.gitkeep
 packer/exports/*
-!./packer/exports/.gitkeep
+!packer/exports/.gitkeep
+packer/**/*.auto.pkrvars.hcl

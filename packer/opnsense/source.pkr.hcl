@@ -1,4 +1,4 @@
-source "vsphere-iso" "pfsense" {
+source "vsphere-iso" "opnsense" {
   # vSphere settings
   datacenter          = var.vcenter_datacenter
   vcenter_server      = var.vcenter_server
@@ -25,9 +25,8 @@ source "vsphere-iso" "pfsense" {
   }
 
   storage {
-    disk_size = var.disk_size
-    # Thin Provisioned
-    disk_thin_provisioned = true
+    disk_size             = var.disk_size
+    disk_thin_provisioned = false
     disk_eagerly_scrub    = false
   }
 
@@ -52,84 +51,83 @@ source "vsphere-iso" "pfsense" {
 
   iso_checksum = var.iso_checksum
 
+  #cd_files = ["${path.root}/files/*"]
+  #cd_label = "backups"
+
   # Boot commands
-  boot_wait = "30s"
+  boot_wait = "1m30s"
   boot_command = [
-    # Following works with pfSense 2.5.2
+    # Following works with OPNsense 21.7.1
     ##################################################
     # INSTALL
     ##################################################
-    #   Copyright and Distribution Notice
-    #       Default: Accept
-    "<enter><wait>",
-    #   Welcome
-    #       Options: Install, Rescue Shell, Recover config.xml
-    #       Default: Install
-    "<enter><wait>",
+    "installer<enter><wait>",
+    "opnsense<enter><wait>",
     #   Keymap Selection
-    #       Default: continue with default (US)
-    "<enter><wait2s>",
+    #       Default: continue with default keymap (US)
+    "<enter><wait>",
     #   Partitioning
-    #       Options: Auto (ZFS), Auto (UFS) Bios, *Auto (UFS) UEFI, Manual, Shell
-    #       Default: Auto (ZFS)
-    "<enter><wait2s>",
-    #   ZFS Configuration Options
-    #       Default: Proceed with Installation
-    "<enter><wait2s>",
-    #       Select Virtual Device type
-    #       Default: stripe
-    "<enter><wait2s>",
-    #       select device
-    "<spacebar><wait2s>",
-    "<enter><wait2s>",
-    #   Installation
-    #       Proceed? y/N
-    "y",
-    "<wait1m>",
-    #   Manual Configuration
+    #       Options: Install (UFS), Install (ZFS), 
+    #                Other Modes >>, Import Config, 
+    #                Password Reset, Force Reboot
+    #       Default: Install (UFS)
+    "<enter><wait>",
+    #   UFS Configuration: select disk
+    #       (da* appears to be LSI Logic SCSI controller)
+    #       (ata* appears to be SATA controller)
+    #       (TODO: Maybe pick *ONE* and hard-code it since
+    #              we cannot put logic here.)
+    #       Options: cd0, da0, ata0, ...?
+    #       Default: cd0
+    "d<wait>",
+    "<enter><wait>",
+    #   UFS Configuration: continue?
+    #       Options: Yes, No
     #       Default: No
-    "<enter><wait2s>",
-    #   Complete
-    #       Default: Reboot
+    "y",
+    # ...installation process...
+    "<wait2m>",
+    #   Final Configuration
+    #       Options: Exit, Root Password
+    #       Default: Exit
     "<enter>",
+    "<wait1m>",
     ##################################################
     # FIRST BOOT
     ##################################################
-    "<wait45s>",
+    "root<enter><wait>",
+    "opnsense<enter><wait>",
     # FIRST BOOT
-    #   Should VLANs bet set up now [y|n]?
-    "n<wait>",
+    #   1. interfaces
+    "1<wait>",
+    "<enter><wait>",
+    #   Should VLANs be set up now [y|N]?
     "<enter><wait>",
     #   WAN interface name
     "vmx0<wait>",
-    "<enter><wait2>",
+    "<enter><wait>",
     #   LAN interface name
     "vmx1<wait>",
-    "<enter><wait2>",
-    #   OPT interface name
+    "<enter><wait>",
+    #   "OPT1" interface name
     "vmx2<wait>",
-    "<enter><wait2>",
-    #   Do you want to proceed? [y|n]
+    "<enter><wait>",
+    #   "OPT2" interface name
+    "<enter>",
+    #   Do you want to proceed? [y|N]
     "y<wait>",
-    "<enter><wait1m>",
-    # Main menu
-    #   13. Update from console
-    "13<wait>",
-    "<enter><wait2m>",
+    "<enter><wait30s>",
     #   8. Shell
     "8<wait>",
-    "<enter><wait5s>",
-    #     Install pfSense-pkg-Open-VM-Tools
-    "pkg install -y pfSense-pkg-Open-VM-Tools",
-    "<enter><wait30s>",
+    "<enter><wait2s>",
     #     exit shell
     "exit<wait><enter>",
     #   6. Halt system
-    "6<wait>",
-    "<enter><wait>",
-    #     Do you want to proceed [y|n]?
+    "5<wait>",
+    "<enter><wait2s>",
+    #     The system will halt and power off [y/N]
     "y<wait>",
-    "<enter><wait>"
+    "<enter><wait1m>"
   ]
 
   communicator = "none"
